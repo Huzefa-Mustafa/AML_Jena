@@ -13,13 +13,17 @@ import org.apache.jena.vocabulary.VCARD;
 
 
 public class App {
-
-
-    public void readModel() {
+    /**
+     * Reading an .rdf file.
+     *
+     * @param path String
+     * @return --
+    */
+    public static void readModel(String path) {
         
         Model model = ModelFactory.createDefaultModel();
 
-        String rdfFile = "src/animals.rdf";
+        String rdfFile = path;
         model.read(rdfFile);
 
         StmtIterator iter = model.listStatements();
@@ -39,9 +43,10 @@ public class App {
             }
         }
         
-        model.close();
+        // model.close();
     }
-/**
+
+    /**
      * To create this graph, or model.
      *
      * @param --
@@ -92,7 +97,7 @@ public class App {
         
         return model;
     }
-    public static void writeModelToFile(Model model) throws Exception {
+    public static void writeModelToXML(Model model) throws Exception {
         try {
             // model.write(System.out);
             RDFDataMgr.write(System.out, model, Lang.RDFXML);
@@ -103,8 +108,9 @@ public class App {
         }
     }
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
-        writeModelToFile(createModel());
+        // System.out.println("Hello, World!");
+        // writeModelToXML(createModel());
+        readModel("src/animals.rdf");
     }
     
 }
