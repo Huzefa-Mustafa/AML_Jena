@@ -2,6 +2,7 @@ import java.io.IOException;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.Statement;
@@ -11,8 +12,13 @@ import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.util.FileManager;
 import org.apache.jena.vocabulary.VCARD;
 
+import com.google.protobuf.Field;
+
 
 public class App {
+    App(){
+        Model model = ModelFactory.createDefaultModel();
+    }
     /**
      * Reading an .rdf file.
      *
@@ -47,10 +53,10 @@ public class App {
     }
 
     /**
-     * To create this graph, or model.
-     *
-     * @param --
-     * @return --
+     * To create a default graph, or model with default properties
+     * 
+     * 
+     * @return model Model
     */
     public static Model createModel() {
         final String personURI = "http://somewhere/JohnSmith";
@@ -59,10 +65,8 @@ public class App {
         String fullName     = givenName + " " + familyName;
         // create an empty Model
         Model model = ModelFactory.createDefaultModel();
-        // create the resource
-        // Resource johnSmith = model.createResource(personURI);
-        // create the resource
         //   and add the properties cascading style
+        //   creating default model in with specified properties 
         Resource johnSmith = model.createResource(personURI)
                                     // add the property
                                     .addProperty(VCARD.FN, fullName)
@@ -72,8 +76,13 @@ public class App {
                                                 .addProperty(VCARD.Family, familyName));
 
         // johnSmith.addProperty(VCARD.FN, fullName);
+        
 
 
+        
+        return model;
+    }
+    public static void printStatementsFromModel(Model model){
         // check the statement in model and print them
         // list the statements in the Model
         StmtIterator iter = model.listStatements();
@@ -94,8 +103,11 @@ public class App {
             }
             System.out.println(" .");    
         }
-        
-        return model;
+    }
+    public static void addResourceToModel(Model model,Property p , String s, String uri){
+        Resource res = model.getResource(uri);
+        res.addProperty(p,s);
+
     }
     public static void writeModelToXML(Model model) throws Exception {
         try {
@@ -108,9 +120,15 @@ public class App {
         }
     }
     public static void main(String[] args) throws Exception {
-        // System.out.println("Hello, World!");
         // writeModelToXML(createModel());
-        readModel("src/animals.rdf");
+        Model myModel = createModel();
+        Property pro = VCARD.EMAIL;
+        String email = "johnsmith@gmail.com";
+        printStatementsFromModel(myModel);
+        System.out.println("####################################################");
+        addResourceToModel(myModel, pro, email, "http://somewhere/JohnSmith");
+        printStatementsFromModel(myModel);
+        System.out.println("####################################################");
     }
     
 }
