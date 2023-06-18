@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -16,40 +17,43 @@ import com.google.protobuf.Field;
 
 
 public class App {
-    App(){
-        Model model = ModelFactory.createDefaultModel();
-    }
+    App(){}
     /**
      * Reading an .rdf file.
      *
      * @param path String
      * @return --
     */
-    public static void readModel(String path) {
+    public static Model readModel(String path) {
         
         Model model = ModelFactory.createDefaultModel();
 
-        String rdfFile = path;
-        model.read(rdfFile);
-
-        StmtIterator iter = model.listStatements();
-
-        while (iter.hasNext()) {
-            Statement stmt = iter.nextStatement();
-            Resource subject = stmt.getSubject();
-            Resource predicate = stmt.getPredicate();
-            RDFNode object = stmt.getObject();
-            // System.out.println(subject + " " + predicate + " " + object);
-            if (object.isResource()) {
-                Resource resource = object.asResource();
-                System.out.println(subject + " " + predicate + " " + resource);
-            } else {
-                // Handle literal value
-                System.out.println(subject + " " + predicate + " " + object.asLiteral().getValue());
-            }
+        // use the RDFDataMgr to find the input file
+        InputStream in = RDFDataMgr.open( path );
+        if (in == null) {
+            throw new IllegalArgumentException("File: " + path + " not found");
         }
+        model.read(in,null);
+
         
-        // model.close();
+        // StmtIterator iter = model.listStatements();
+
+        // while (iter.hasNext()) {
+        //     Statement stmt = iter.nextStatement();
+        //     Resource subject = stmt.getSubject();
+        //     Resource predicate = stmt.getPredicate();
+        //     RDFNode object = stmt.getObject();
+        //     // System.out.println(subject + " " + predicate + " " + object);
+        //     if (object.isResource()) {
+        //         Resource resource = object.asResource();
+        //         System.out.println(subject + " " + predicate + " " + resource);
+        //     } else {
+        //         // Handle literal value
+        //         System.out.println(subject + " " + predicate + " " + object.asLiteral().getValue());
+        //     }
+        // }
+        printStatementsFromModel(model);
+        return model;
     }
 
     /**
@@ -58,16 +62,13 @@ public class App {
      * 
      * @return model Model
     */
-    public static Model createModel() {
-        final String personURI = "http://somewhere/JohnSmith";
-        String givenName    = "John";
-        String familyName   = "Smith";
+    public static Model createModel(final String personURI, String givenName, String familyName) {
         String fullName     = givenName + " " + familyName;
         // create an empty Model
         Model model = ModelFactory.createDefaultModel();
         //   and add the properties cascading style
         //   creating default model in with specified properties 
-        Resource johnSmith = model.createResource(personURI)
+        Resource res = model.createResource(personURI)
                                     // add the property
                                     .addProperty(VCARD.FN, fullName)
                                     .addProperty(VCARD.N, 
@@ -77,7 +78,7 @@ public class App {
 
         // johnSmith.addProperty(VCARD.FN, fullName);
         
-
+        printStatementsFromModel(model);
 
         
         return model;
@@ -93,15 +94,23 @@ public class App {
             Resource predicate = stmt.getPredicate();   // get the predicate
             RDFNode  object = stmt.getObject();         // get the object
 
-            System.out.print(subject.toString());
-            System.out.print(" " + predicate.toString() + " ");
-            if (object instanceof Resource) {
-                System.out.print(object.toString());
-             } else {
-                 // object is a literal
-                 System.out.print(" \"" + object.toString() + "\"");
+            // System.out.print(subject.toString());
+            // System.out.print(" " + predicate.toString() + " ");
+            if (object.isResource()) {
+                Resource resource = object.asResource();
+                System.out.println("Subject: "+ subject + "\nPredicate: " + predicate + "\nResource: " + resource);
+            } else {
+                // Handle literal value
+                System.out.println("Subject: "+ subject + "\nPredicate: " + predicate + "\nLiteral:" + object.asLiteral().getValue());
             }
-            System.out.println(" .");    
+            System.out.println("###################################################");
+            // if (object instanceof Resource) {
+            //     System.out.print(object.toString());
+            //  } else {
+            //      // object is a literal
+            //      System.out.print(" \"" + object.toString() + "\"");
+            // }
+            // System.out.println(" .");    
         }
     }
     public static void addResourceToModel(Model model,Property p , String s, String uri){
@@ -112,7 +121,14 @@ public class App {
     public static void writeModelToXML(Model model) throws Exception {
         try {
             // model.write(System.out);
+            // now write the model in a pretty form
+            // not suitable for writing very large Models
             RDFDataMgr.write(System.out, model, Lang.RDFXML);
+
+            //To write large files and preserve blank nodes, write in N-Triples format:
+            // now write the model in N-TRIPLES form
+            RDFDataMgr.write(System.out, model, Lang.NTRIPLES);
+            
             model.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -121,14 +137,17 @@ public class App {
     }
     public static void main(String[] args) throws Exception {
         // writeModelToXML(createModel());
-        Model myModel = createModel();
-        Property pro = VCARD.EMAIL;
-        String email = "johnsmith@gmail.com";
-        printStatementsFromModel(myModel);
-        System.out.println("####################################################");
-        addResourceToModel(myModel, pro, email, "http://somewhere/JohnSmith");
-        printStatementsFromModel(myModel);
-        System.out.println("####################################################");
+        Model dataModel = readModel("data/vc-db-1.rdf");
+        
+        Model newModel = createModel("http://somewhere/HuzefaMustafa", "Huzefa", "Mustafa");
+        
+        
+        
+        // Property pro = VCARD.EMAIL;
+        // String email = "johnsmith@gmail.com";
+        // printStatementsFromModel(myModel);
+        // addResourceToModel(myModel, pro, email, "http://somewhere/JohnSmith");
+        
     }
     
 }
