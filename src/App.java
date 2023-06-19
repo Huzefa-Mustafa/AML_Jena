@@ -22,7 +22,7 @@ public class App {
      * Reading an .rdf file.
      *
      * @param path String
-     * @return --
+     * @return model of Model class
     */
     public static Model readModel(String path) {
         
@@ -35,31 +35,17 @@ public class App {
         }
         model.read(in,null);
 
-        
-        // StmtIterator iter = model.listStatements();
-
-        // while (iter.hasNext()) {
-        //     Statement stmt = iter.nextStatement();
-        //     Resource subject = stmt.getSubject();
-        //     Resource predicate = stmt.getPredicate();
-        //     RDFNode object = stmt.getObject();
-        //     // System.out.println(subject + " " + predicate + " " + object);
-        //     if (object.isResource()) {
-        //         Resource resource = object.asResource();
-        //         System.out.println(subject + " " + predicate + " " + resource);
-        //     } else {
-        //         // Handle literal value
-        //         System.out.println(subject + " " + predicate + " " + object.asLiteral().getValue());
-        //     }
-        // }
         printStatementsFromModel(model);
         return model;
     }
 
     /**
-     * To create a default graph, or model with default properties
+     * To create a default graph, or model. with given parameters
      * 
-     * 
+     * @param personURI String, 
+     * @param givenName String,
+     * @param familyName String
+     *    
      * @return model Model
     */
     public static Model createModel(final String personURI, String givenName, String familyName) {
@@ -83,6 +69,13 @@ public class App {
         
         return model;
     }
+    /**
+     * To print statements from the model
+     * 
+     * @param model Model, 
+     *    
+     * @return model Model
+    */
     public static void printStatementsFromModel(Model model){
         // check the statement in model and print them
         // list the statements in the Model
@@ -94,8 +87,6 @@ public class App {
             Resource predicate = stmt.getPredicate();   // get the predicate
             RDFNode  object = stmt.getObject();         // get the object
 
-            // System.out.print(subject.toString());
-            // System.out.print(" " + predicate.toString() + " ");
             if (object.isResource()) {
                 Resource resource = object.asResource();
                 System.out.println("Subject: "+ subject + "\nPredicate: " + predicate + "\nResource: " + resource);
@@ -104,20 +95,29 @@ public class App {
                 System.out.println("Subject: "+ subject + "\nPredicate: " + predicate + "\nLiteral:" + object.asLiteral().getValue());
             }
             System.out.println("###################################################");
-            // if (object instanceof Resource) {
-            //     System.out.print(object.toString());
-            //  } else {
-            //      // object is a literal
-            //      System.out.print(" \"" + object.toString() + "\"");
-            // }
-            // System.out.println(" .");    
+          
         }
     }
+    /**
+     * Adding add property to model object
+     * 
+     * @param model Model, 
+     * @param p Property,
+     * @param s String,
+     * @param uri String
+    */
     public static void addResourceToModel(Model model,Property p , String s, String uri){
         Resource res = model.getResource(uri);
         res.addProperty(p,s);
 
     }
+    /**
+     * To write the model in RDF/XML format
+     * 
+     * @param model Model, 
+     *    
+     * @return model Model
+    */
     public static void writeModelToXML(Model model) throws Exception {
         try {
             // model.write(System.out);
@@ -141,12 +141,9 @@ public class App {
         
         Model newModel = createModel("http://somewhere/HuzefaMustafa", "Huzefa", "Mustafa");
         
-        
-        
-        // Property pro = VCARD.EMAIL;
-        // String email = "johnsmith@gmail.com";
-        // printStatementsFromModel(myModel);
-        // addResourceToModel(myModel, pro, email, "http://somewhere/JohnSmith");
+        // merge the Models
+        Model model = dataModel.union(newModel);
+        writeModelToXML(model);
         
     }
     
