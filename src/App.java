@@ -12,12 +12,52 @@ import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.util.FileManager;
 import org.apache.jena.vocabulary.VCARD;
-
+import org.apache.jena.query.*;
 import com.google.protobuf.Field;
 
 
 public class App {
     App(){}
+
+    /**
+     * Function for testing usage of SPARQL queries in Java Jena API.
+     *
+     * @param model Model
+     * @param queryStr String
+     * @return -
+    */
+    public static void executeSPARQLQuery(Model model, String queryStr){
+
+        
+        // Create a Query object from the SPARQL query string
+        Query query = QueryFactory.create(queryStr);
+        // Create a QueryExecution object with the query and the model
+        QueryExecution qexec = QueryExecution.create(query, model);
+
+        try {
+            // Execute the query and obtain the result set
+            ResultSet rs = qexec.execSelect();
+            // Process and print the results
+            while (rs.hasNext()) {
+                QuerySolution soln = rs.nextSolution();
+                // Resource res = solution.getResource("x");
+                RDFNode x = soln.get("x");
+                if (x != null) {
+                    System.out.println(x.toString());
+                }
+
+            }
+
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        } finally {
+            qexec.close();
+        }
+        
+
+    }
+
     /**
      * Reading an .rdf file.
      *
@@ -35,7 +75,7 @@ public class App {
         }
         model.read(in,null);
 
-        printStatementsFromModel(model);
+        // printStatementsFromModel(model);
         return model;
     }
 
@@ -64,7 +104,7 @@ public class App {
 
         // johnSmith.addProperty(VCARD.FN, fullName);
         
-        printStatementsFromModel(model);
+        // printStatementsFromModel(model);
 
         
         return model;
@@ -127,23 +167,33 @@ public class App {
 
             //To write large files and preserve blank nodes, write in N-Triples format:
             // now write the model in N-TRIPLES form
-            RDFDataMgr.write(System.out, model, Lang.NTRIPLES);
+            // RDFDataMgr.write(System.out, model, Lang.NTRIPLES);
             
-            model.close();
         } catch (Exception e) {
             System.out.println(e);
-            model.close();
+            
         }
     }
+
+
     public static void main(String[] args) throws Exception {
         // writeModelToXML(createModel());
         Model dataModel = readModel("data/vc-db-1.rdf");
         
         Model newModel = createModel("http://somewhere/HuzefaMustafa", "Huzefa", "Mustafa");
-        
-        // merge the Models
+            
+            // merge the Models
         Model model = dataModel.union(newModel);
-        writeModelToXML(model);
+        try {
+            // writeModelToXML(model);
+            executeSPARQLQuery(model, "SELECT ?x ?fname\r\n" + //
+                    "WHERE {?x  <http://www.w3.org/2001/vcard-rdf/3.0#FN>  ?fname}");
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }finally{
+            model.close();
+        }
         
     }
     
