@@ -8,52 +8,12 @@ import org.apache.jena.util.FileManager;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.VCARD;
-import org.apache.jena.query.*;
-import com.google.protobuf.Field;
 
 
-public class App {
-    App(){}
+public class RDFModel {
+    RDFModel(){}
 
-    /**
-     * Function for testing usage of SPARQL queries in Java Jena API.
-     *
-     * @param model Model
-     * @param queryStr String
-     * @return -
-    */
-    public static void executeSPARQLQuery(Model model, String queryStr){
-
-        
-        // Create a Query object from the SPARQL query string
-        Query query = QueryFactory.create(queryStr);
-        // Create a QueryExecution object with the query and the model
-        QueryExecution qexec = QueryExecution.create(query, model);
-
-        try {
-            // Execute the query and obtain the result set
-            ResultSet rs = qexec.execSelect();
-            // Process and print the results
-            while (rs.hasNext()) {
-                QuerySolution soln = rs.nextSolution();
-                // Resource res = solution.getResource("x");
-                RDFNode x = soln.get("x");
-                if (x != null) {
-                    System.out.println(x.toString());
-                }
-
-            }
-
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
-        } finally {
-            qexec.close();
-        }
-        
-
-    }
-
+    
     /**
      * Reading an .rdf file.
      *
