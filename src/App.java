@@ -1,16 +1,12 @@
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.StmtIterator;
+import org.apache.jena.rdf.model.*;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.util.FileManager;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.VCARD;
 import org.apache.jena.query.*;
 import com.google.protobuf.Field;
@@ -64,7 +60,7 @@ public class App {
      * @param path String
      * @return model of Model class
     */
-    public static Model readModel(String path) {
+    public static Model readRDFModel(String path) {
         
         Model model = ModelFactory.createDefaultModel();
 
@@ -88,8 +84,8 @@ public class App {
      *    
      * @return model Model
     */
-    public static Model createModel(final String personURI, String givenName, String familyName) {
-        String fullName     = givenName + " " + familyName;
+    public static Model createRDFModel(final String personURI, String givenName, String familyName) {
+        String fullName = givenName + " " + familyName;
         // create an empty Model
         Model model = ModelFactory.createDefaultModel();
         //   and add the properties cascading style
@@ -98,28 +94,73 @@ public class App {
                                     // add the property
                                     .addProperty(VCARD.FN, fullName)
                                     .addProperty(VCARD.N, 
-                                        model.createResource()
-                                                .addProperty(VCARD.Given,givenName)
-                                                .addProperty(VCARD.Family, familyName));
+                                    model.createResource() // will create a blank node
+                                    .addProperty(VCARD.Given,givenName)
+                                    .addProperty(VCARD.Family, familyName));
 
-        // johnSmith.addProperty(VCARD.FN, fullName);
+        // res.addProperty(VCARD.FN, fullName);
         
         // printStatementsFromModel(model);
 
         
         return model;
     }
+
+    public static Model createRDFschemaModel(Model model){
+        // Define namespace prefixes
+        String rdfNS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+        String rdfsNS = "http://www.w3.org/2000/01/rdf-schema#";
+        String myNS = "http://somewhere/";
+
+        // Create resources for the classes and subclasses
+        Resource personClass = model.createResource(myNS + "Person");
+        Resource studentClass = model.createResource(myNS + "Student");
+        // Add RDF statements to define classes and subclasses
+        model.add(personClass, RDF.type, RDFS.Class);
+        model.add(studentClass, RDF.type, RDFS.Class);
+
+        model.add(studentClass, RDFS.subClassOf, personClass);
+        
+        return model;
+    }
+
     /**
      * To print statements from the model
      * 
      * @param model Model, 
-     *    
+     * @param uri String uri of the resource
      * @return model Model
     */
+    public static void printPropertiesFromResourse(Resource res, String uri){
+        if ( uri != null){
+
+            StmtIterator iter = res.listProperties();
+            while(iter.hasNext()){
+                Statement stmt = iter.nextStatement();
+                Resource subject = stmt.getSubject();
+                Resource predicate = stmt.getPredicate();
+                RDFNode object = stmt.getObject();
+                // System.out.println(stmt);
+                // retrieve the value of the N property
+                
+                if (object.isResource()) {
+                    Resource resource = object.asResource();
+                    System.out.println("Subject: "+ subject + "\nPredicate: " + predicate + "\nResource: " + resource);
+                } else {
+                    System.out.println("Subject: "+ subject + "\nPredicate: " + predicate + "\nResource: " + object.asLiteral().getValue());
+                    
+                }
+            } 
+        } else {
+            System.out.println("Resource not found: " + uri);
+        }
+    }
+    
     public static void printStatementsFromModel(Model model){
         // check the statement in model and print them
         // list the statements in the Model
         StmtIterator iter = model.listStatements();
+        
         // print out the predicate, subject and object of each statement
         while (iter.hasNext()) {
             Statement stmt = iter.nextStatement();      // get next statement
@@ -129,6 +170,7 @@ public class App {
 
             if (object.isResource()) {
                 Resource resource = object.asResource();
+                
                 System.out.println("Subject: "+ subject + "\nPredicate: " + predicate + "\nResource: " + resource);
             } else {
                 // Handle literal value
@@ -146,10 +188,9 @@ public class App {
      * @param s String,
      * @param uri String
     */
-    public static void addResourceToModel(Model model,Property p , String s, String uri){
+    public static void addPropertyToModel(Model model,Property p , String s, String uri){
         Resource res = model.getResource(uri);
         res.addProperty(p,s);
-
     }
     /**
      * To write the model in RDF/XML format
@@ -165,7 +206,7 @@ public class App {
             // not suitable for writing very large Models
             RDFDataMgr.write(System.out, model, Lang.RDFXML);
 
-            //To write large files and preserve blank nodes, write in N-Triples format:
+            // To write large files and preserve blank nodes, write in N-Triples format:
             // now write the model in N-TRIPLES form
             // RDFDataMgr.write(System.out, model, Lang.NTRIPLES);
             
@@ -177,17 +218,37 @@ public class App {
 
 
     public static void main(String[] args) throws Exception {
-        // writeModelToXML(createModel());
-        Model dataModel = readModel("data/vc-db-1.rdf");
-        
-        Model newModel = createModel("http://somewhere/HuzefaMustafa", "Huzefa", "Mustafa");
-            
-            // merge the Models
+        // Creating a new RDF Model
+        Model newModel = createRDFModel("http://somewhere/JinKazama", "Jin", "Kazama");
+        // Reading model from a file
+        Model dataModel = readRDFModel("data/vc-db-1.rdf");
+        // merge both Models create one big model
         Model model = dataModel.union(newModel);
+        
+        // adding property to existing model
+        
+        Property emailProperty = VCARD.EMAIL;
+        String emailValue = "johnsmith@example.com";
+        String uri = "http://somewhere/JohnSmith";
+        // Get resource of johnSmith 
+        
+        // retrieve the value of the N property 
+        // Resource nameResource = johnSmith.getProperty(VCARD.N).getResource();
+        // nameResource.addProperty(emailProperty, emailValue); 
+        // addPropertyToModel(model, emailProperty, emailValue, "http://somewhere/JohnSmith");
+        
+        // writeModelToXML(model);
+        
+        Model rdfsModel = createRDFschemaModel(model);
+        Resource jsRes = model.getResource(uri);
+        Resource student = model.getResource("http://somewhere/Student");
+        rdfsModel.add(jsRes, RDFS.subClassOf, student);
+
+        writeModelToXML(rdfsModel);
         try {
             // writeModelToXML(model);
-            executeSPARQLQuery(model, "SELECT ?x ?fname\r\n" + //
-                    "WHERE {?x  <http://www.w3.org/2001/vcard-rdf/3.0#FN>  ?fname}");
+            // executeSPARQLQuery(model, "SELECT ?x ?fname\r\n" + //
+            //         "WHERE {?x  <http://www.w3.org/2001/vcard-rdf/3.0#FN>  ?fname}");
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
