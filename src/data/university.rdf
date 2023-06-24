@@ -1,0 +1,559 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/aayush/ontologies/2023/5/university/"
+     xml:base="http://www.semanticweb.org/aayush/ontologies/2023/5/university/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:university="http://www.semanticweb.org/aayush/ontologies/2023/5/university#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Admits -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Admits">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#University"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Student"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Employs -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Employs">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#University"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Staff"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#EnrollsFor -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#EnrollsFor">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#areEnrolledby"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Student"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Handles -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Handles">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Academic"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Studies -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Studies">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Student"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Student"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#WorksAs -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#WorksAs">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Staff"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Job"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#areEnrolledby -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#areEnrolledby">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Student"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#hasDept -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#hasDept">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Departments"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#ExperienceInYears -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#ExperienceInYears">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Staff"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+        <rdfs:comment>Indicates years of Experience</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#HasCredit -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#HasCredit">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Student"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#HasIDNumber -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#HasIDNumber">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Person"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Indicates the ID number of staff and sudents</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#HasSubject -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#HasSubject">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Subject"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+        <rdfs:comment>Indicates Subject taken bu the students</rdfs:comment>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#HasSubjectScore -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#HasSubjectScore">
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Subject"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Academic -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Academic">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Staff"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Administrative"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Accountancy -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Accountancy">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Administrative -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Administrative">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Staff"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#AdministrativeOfficer -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#AdministrativeOfficer">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Job"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#AssistantProf -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#AssistantProf">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Job"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Business -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Business">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Departments"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Engineering"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#BusinessManagement -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#BusinessManagement">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#ComputerScience -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#ComputerScience">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#University"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Departments -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Departments">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#University"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#EEE -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#EEE">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Engineering -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Engineering">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Departments"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Job -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Job">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#University"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Mechanical -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Mechanical">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#PG -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#PG">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Student"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Person -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Person">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#University"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Phd -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Phd">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Student"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Professor -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Professor">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Job"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#RecriutmentOfficer -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#RecriutmentOfficer">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Job"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Staff -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Staff">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Person"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Student"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Student -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Student">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Subject -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Subject">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#University"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#UG -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#UG">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Student"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#University -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#University"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Accountancy -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Accountancy">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course"/>
+        <university:hasDept rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Business"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#AmbientIntelligence -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#AmbientIntelligence">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Bruce -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Bruce">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Academic"/>
+        <university:Handles rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#DataScience"/>
+        <university:ExperienceInYears rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">5</university:ExperienceInYears>
+        <university:HasIDNumber>AS223</university:HasIDNumber>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Business -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Business">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Departments"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#BusinessManagement -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#BusinessManagement">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course"/>
+        <university:hasDept rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Business"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#DataScience -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#DataScience">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#EEE -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#EEE">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Engineering -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Engineering">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Departments"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Gwen -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Gwen">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Student"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#HochschuleRheinWall -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#HochschuleRheinWall">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#University"/>
+        <university:Admits rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Gwen"/>
+        <university:Admits rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Peter"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Mary -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Mary">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Academic"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Mechanical -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Mechanical">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Course"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Penny -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Penny">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Administrative"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Peter -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Peter">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#UG"/>
+        <university:EnrollsFor rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#AmbientIntelligence"/>
+        <university:HasCredit rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">50</university:HasCredit>
+        <university:HasIDNumber>A1234</university:HasIDNumber>
+        <university:HasSubject>As1213</university:HasSubject>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Raj -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Raj">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Administrative"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Stacy -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Stacy">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Student"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/aayush/ontologies/2023/5/university#Tim -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Tim">
+        <rdf:type rdf:resource="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Academic"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Accountancy"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#BusinessManagement"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#ComputerScience"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#EEE"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Mechanical"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#AdministrativeOfficer"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#AssistantProf"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Professor"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#RecriutmentOfficer"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#PG"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#Phd"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/aayush/ontologies/2023/5/university#UG"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.25.2023-02-15T19:15:49Z) https://github.com/owlcs/owlapi -->
+

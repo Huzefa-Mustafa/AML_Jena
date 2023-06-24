@@ -68,8 +68,6 @@ public class RDFModel {
 
     public static Model createRDFschemaModel(Model model){
         // Define namespace prefixes
-        String rdfNS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-        String rdfsNS = "http://www.w3.org/2000/01/rdf-schema#";
         String myNS = "http://somewhere/";
 
         // Create resources for the classes and subclasses
@@ -180,36 +178,35 @@ public class RDFModel {
     public static void main(String[] args) throws Exception {
         // Creating a new RDF Model
         Model newModel = createRDFModel("http://somewhere/JinKazama", "Jin", "Kazama");
+        writeModelToXML(newModel);
         // Reading model from a file
-        Model dataModel = readRDFModel("data/vc-db-1.rdf");
+        Model dataModel = readRDFModel("data/university.rdf");
+        // writeModelToXML(dataModel);
         // merge both Models create one big model
         Model model = dataModel.union(newModel);
         
-        // adding property to existing model
-        
+        // adding property to existing model 
+        // create a new property and add it to the existing model
         Property emailProperty = VCARD.EMAIL;
         String emailValue = "johnsmith@example.com";
         String uri = "http://somewhere/JohnSmith";
         // Get resource of johnSmith 
-        
+        // Resource johnSmith = model.getResource(uri);
         // retrieve the value of the N property 
         // Resource nameResource = johnSmith.getProperty(VCARD.N).getResource();
         // nameResource.addProperty(emailProperty, emailValue); 
         // addPropertyToModel(model, emailProperty, emailValue, "http://somewhere/JohnSmith");
         
-        // writeModelToXML(model);
-        
+        // Creating RDFS model
+        // example for classes, subclasses and 
+        // defining the schema using RDF statements
         Model rdfsModel = createRDFschemaModel(model);
         Resource jsRes = model.getResource(uri);
         Resource student = model.getResource("http://somewhere/Student");
         rdfsModel.add(jsRes, RDFS.subClassOf, student);
 
-        writeModelToXML(rdfsModel);
-        try {
-            // writeModelToXML(model);
-            // executeSPARQLQuery(model, "SELECT ?x ?fname\r\n" + //
-            //         "WHERE {?x  <http://www.w3.org/2001/vcard-rdf/3.0#FN>  ?fname}");
-        } catch (Exception e) {
+        
+        try {} catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
         }finally{
