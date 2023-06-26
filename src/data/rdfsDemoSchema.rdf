@@ -1,0 +1,19 @@
+  <rdf:RDF
+    xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    >
+  <rdf:Description rdf:about="eg:mum">
+    <rdfs:subPropertyOf rdf:resource="eg:parent"/>
+  </rdf:Description>
+ 
+  <rdf:Description rdf:about="eg:parent">
+    <rdfs:range  rdf:resource="eg:Person"/>
+    <rdfs:domain rdf:resource="eg:Person"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="eg:age">
+    <rdfs:range rdf:resource="xsd:integer" />
+  </rdf:Description>
+
+
+</rdf:RDF>

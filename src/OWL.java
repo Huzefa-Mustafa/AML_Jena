@@ -11,8 +11,12 @@ import org.apache.jena.ontology.OntProperty;
 import org.apache.jena.rdf.model.*;
 import org.apache.jena.reasoner.Reasoner;
 import org.apache.jena.reasoner.ReasonerRegistry;
+import org.apache.jena.reasoner.ValidityReport;
+import org.apache.jena.reasoner.ValidityReport.Report;
 import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.util.PrintUtil;
 import org.apache.jena.util.iterator.ExtendedIterator;
+import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.ReasonerVocabulary;
 import org.apache.jena.vocabulary.XSD;
 
@@ -62,48 +66,84 @@ public class OWL {
 
             }
     }
+    public static void performReasoning(){
+        Model schema = RDFDataMgr.loadModel("file:src/data/owlDemoSchema.rdf");
+        Model data = RDFDataMgr.loadModel("file:src/data/owlDemoData.rdf");
+        Reasoner reasoner = ReasonerRegistry.getOWLReasoner();
+        reasoner = reasoner.bindSchema(schema);
+        InfModel infmodel = ModelFactory.createInfModel(reasoner, data);
+        
+        Resource nForce = infmodel.getResource("urn:x-hp:eg/nForce");
+        System.out.println("nForce *:");
+        printStatements(infmodel, nForce, null, null);
+        Resource gamingComputer = infmodel.getResource("urn:x-hp:eg/GamingComputer");
+        Resource whiteBox = infmodel.getResource("urn:x-hp:eg/whiteBoxZX");
+        if (infmodel.contains(whiteBox, RDF.type, gamingComputer)) {
+            System.out.println("White box recognized as gaming computer");
+        } else {
+            System.out.println("Failed to recognize white box correctly");
+        }
+        ValidityReport validity = infmodel.validate();
+        if (validity.isValid()) {
+            System.out.println("OK");
+        } else {
+            System.out.println("Conflicts");
+            for (Iterator<Report> i = validity.getReports(); i.hasNext(); ) {
+                ValidityReport.Report report = (ValidityReport.Report)i.next();
+                System.out.println(" - " + report);
+            }
+        }
+        
+    }
+    public static void printStatements(Model m, Resource s, Property p, Resource o) {
+        for (StmtIterator i = m.listStatements(s,p,o); i.hasNext(); ) { 
+            Statement stmt = i.nextStatement(); 
+            System.out.println(" - " + PrintUtil.print(stmt)); 
+        } 
+    }
     public static void main(String[] args) {
         // Model model = RDFModel.readRDFModel("data/vc-db-1.rdf");
+        performReasoning();
         try { 
             // Load and parse the OWL ontology file
-            String path = "src/data/eswc-2006-09-21.rdf";
-            // create the base model
-            String SOURCE = "http://www.eswc2006.org/technologies/ontology";
-            String NS = SOURCE + "#";
-            OntModel ontM = readOntModel(path, SOURCE, NS);
-            // RDFModel.writeModelToXML(ontM);
+            // String path = "src/data/eswc-2006-09-21.rdf";
+            // // create the base model
+            // String SOURCE = "http://www.eswc2006.org/technologies/ontology";
+            // String NS = SOURCE + "#";
+            // OntModel ontM = readOntModel(path, SOURCE, NS);
+            // // RDFModel.writeModelToXML(ontM);
 
-            OntClass cls = ontM.getOntClass(NS + "Artefact");
-            Resource r = ontM.getResource( NS + "Artefact" );
+            // OntClass cls = ontM.getOntClass(NS + "Artefact");
+            // Resource r = ontM.getResource( NS + "Artefact" );
             
-            // RDFModel.printPropertiesFromResourse(r, SOURCE);
+            // // RDFModel.printPropertiesFromResourse(r, SOURCE);
             
-            OntClass programme = ontM.createClass( NS + "Programme" );
-            OntClass orgEvent = ontM.createClass( NS + "OrganizedEvent" );
+            // OntClass programme = ontM.createClass( NS + "Programme" );
+            // OntClass orgEvent = ontM.createClass( NS + "OrganizedEvent" );
 
-            ObjectProperty hasProgramme = ontM.createObjectProperty( NS + "hasProgramme" );
+            // ObjectProperty hasProgramme = ontM.createObjectProperty( NS + "hasProgramme" );
 
-            hasProgramme.addDomain( orgEvent );
-            hasProgramme.addRange( programme );
-            hasProgramme.addLabel( "has programme", "en" );
+            // hasProgramme.addDomain( orgEvent );
+            // hasProgramme.addRange( programme );
+            // hasProgramme.addLabel( "has programme", "en" );
 
 
-            DatatypeProperty subDeadline = ontM.getDatatypeProperty( NS + "hasSubmissionDeadline" );
-            DatatypeProperty deadline = ontM.createDatatypeProperty( NS + "deadline" );
-            deadline.addDomain( ontM.getOntClass( NS + "Call" ) );
-            deadline.addRange( XSD.dateTime );
+            // DatatypeProperty subDeadline = ontM.getDatatypeProperty( NS + "hasSubmissionDeadline" );
+            // DatatypeProperty deadline = ontM.createDatatypeProperty( NS + "deadline" );
+            // deadline.addDomain( ontM.getOntClass( NS + "Call" ) );
+            // deadline.addRange( XSD.dateTime );
 
-            deadline.addSubProperty( subDeadline );
-            // printSubClasses(ontM);
-            // SysteontM.out.println( paper );
-            // // Perform reasoning and inference
-            Reasoner reasoner = ReasonerRegistry.getOWLReasoner();
-            reasoner = reasoner.bindSchema(ontM);
-            InfModel infModel = ModelFactory.createInfModel(reasoner, ontM);
-            Resource a = infModel.getResource(NS + "Artefact");
-            System.out.println("Statement: " + a.getProperty(subDeadline));
-            // Perform consistency checking
-            boolean isConsistent = infModel.validate().isValid();
+            // deadline.addSubProperty( subDeadline );
+            // // printSubClasses(ontM);
+            // // SysteontM.out.println( paper );
+            // // // Perform reasoning and inference
+            // Reasoner reasoner = ReasonerRegistry.getOWLReasoner();
+            // reasoner = reasoner.bindSchema(ontM);
+            // InfModel infModel = ModelFactory.createInfModel(reasoner, ontM);
+            // Resource a = infModel.getResource(NS + "Programme");
+            // System.out.println("Statement: " + a.getProperty(subDeadline));
+            // // Perform consistency checking
+            // boolean isConsistent = infModel.validate().isValid();
             
             
         } catch (Exception e) {
