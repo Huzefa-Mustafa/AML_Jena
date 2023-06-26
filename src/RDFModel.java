@@ -83,7 +83,7 @@ public class RDFModel {
     }
 
     /**
-     * To print statements from the model
+     * To print properties from a resource
      * 
      * @param model Model, 
      * @param uri String uri of the resource
@@ -113,7 +113,13 @@ public class RDFModel {
             System.out.println("Resource not found: " + uri);
         }
     }
-    
+    /**
+     * To print statements from the model
+     * 
+     * @param model Model, 
+     * @param uri String uri of the resource
+     * @return model Model
+    */
     public static void printStatementsFromModel(Model model){
         // check the statement in model and print them
         // list the statements in the Model
@@ -125,6 +131,7 @@ public class RDFModel {
             Resource subject = stmt.getSubject();       // get the subject
             Resource predicate = stmt.getPredicate();   // get the predicate
             RDFNode  object = stmt.getObject();         // get the object
+            // Note: RDFNode is a common superclass of both Resource and Literal.
 
             if (object.isResource()) {
                 Resource resource = object.asResource();
@@ -178,13 +185,13 @@ public class RDFModel {
     public static void main(String[] args) throws Exception {
         // Creating a new RDF Model
         Model newModel = createRDFModel("http://somewhere/JinKazama", "Jin", "Kazama");
-        writeModelToXML(newModel);
+        // writeModelToXML(newModel);
         // Reading model from a file
-        Model dataModel = readRDFModel("data/university.rdf");
-        // writeModelToXML(dataModel);
+        Model dataModel = readRDFModel("data/vc-db-1.rdf");
+        
         // merge both Models create one big model
         Model model = dataModel.union(newModel);
-        
+        writeModelToXML(model);
         // adding property to existing model 
         // create a new property and add it to the existing model
         Property emailProperty = VCARD.EMAIL;
@@ -198,7 +205,7 @@ public class RDFModel {
         // addPropertyToModel(model, emailProperty, emailValue, "http://somewhere/JohnSmith");
         
         // Creating RDFS model
-        // example for classes, subclasses and 
+        // example for classes, subclasses and defining relations
         // defining the schema using RDF statements
         Model rdfsModel = createRDFschemaModel(model);
         Resource jsRes = model.getResource(uri);

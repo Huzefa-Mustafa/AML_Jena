@@ -34,7 +34,7 @@ public class SPARQL {
             
             // }
             // Use ResultSetFormatter to print out the fomatted resultset
-            ResultSetFormatter.outputAsXML(rs);
+            ResultSetFormatter.out(System.out, rs, query);
             
         } catch (Exception e) {
             // TODO: handle exception
