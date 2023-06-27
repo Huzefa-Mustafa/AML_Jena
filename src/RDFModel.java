@@ -188,31 +188,30 @@ public class RDFModel {
         // writeModelToXML(newModel);
         // Reading model from a file
         Model dataModel = readRDFModel("data/vc-db-1.rdf");
-        
+        // writeModelToXML(dataModel);
         // merge both Models create one big model
         Model model = dataModel.union(newModel);
-        writeModelToXML(model);
+        // writeModelToXML(model);
         // adding property to existing model 
         // create a new property and add it to the existing model
         Property emailProperty = VCARD.EMAIL;
         String emailValue = "johnsmith@example.com";
         String uri = "http://somewhere/JohnSmith";
         // Get resource of johnSmith 
-        // Resource johnSmith = model.getResource(uri);
+        Resource johnSmith = model.getResource(uri);
         // retrieve the value of the N property 
-        // Resource nameResource = johnSmith.getProperty(VCARD.N).getResource();
-        // nameResource.addProperty(emailProperty, emailValue); 
-        // addPropertyToModel(model, emailProperty, emailValue, "http://somewhere/JohnSmith");
-        
+        Resource nameResource = johnSmith.getProperty(VCARD.N).getResource();
+        // johnSmith.addProperty(emailProperty, emailValue); 
+        // writeModelToXML(model);
         // Creating RDFS model
         // example for classes, subclasses and defining relations
         // defining the schema using RDF statements
         Model rdfsModel = createRDFschemaModel(model);
         Resource jsRes = model.getResource(uri);
-        Resource student = model.getResource("http://somewhere/Student");
-        rdfsModel.add(jsRes, RDFS.subClassOf, student);
+        Resource person = model.getResource("http://somewhere/Person");
+        rdfsModel.add(jsRes, RDFS.subClassOf, person);
 
-        
+        writeModelToXML(rdfsModel);
         try {} catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();

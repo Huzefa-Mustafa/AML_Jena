@@ -22,6 +22,9 @@ import org.apache.jena.vocabulary.XSD;
 
 public class OWL {
 
+
+
+
     public static OntModel readOntModel(String path, String SOURCE, String NS) {
         
         OntModel base = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM );
@@ -31,23 +34,6 @@ public class OWL {
         }
         base.read( in, "RDF/XML" );
 
-
-        // Example to create the reasoning model using the base
-        OntModel inf = ModelFactory.createOntologyModel( OntModelSpec.OWL_MEM_MICRO_RULE_INF, base );
-
-        // create a dummy paper for this example
-        OntClass paper = base.getOntClass( NS + "Paper" );
-        Individual p1 = base.createIndividual( NS + "paper1", paper );
-        
-        // // list the asserted types
-        // for (Iterator<Resource> i = p1.listRDFTypes(true); i.hasNext(); ) {
-        //     System.out.println( p1.getURI() + " is asserted in class " + i.next() );
-        // }
-        // // list the inferred types
-        // p1 = inf.getIndividual( NS + "paper1" );
-        // for (Iterator<Resource> i = p1.listRDFTypes(true); i.hasNext(); ) {
-        //     System.out.println( p1.getURI() + " is inferred to be in class " + i.next() );
-        // }
         return base;
     }
     
@@ -99,7 +85,7 @@ public class OWL {
      */
     public static void checkValidity(InfModel infmodel){
         // Validate the inference model
-         ValidityReport validity = infmodel.validate();
+        ValidityReport validity = infmodel.validate();
         if (validity.isValid()) {
             System.out.println("OK");
         } else {
@@ -140,61 +126,63 @@ public class OWL {
     
             }
     }
-    
-    
-    
-    
     public static void main(String[] args) {
-        // performReasoning(null);
+        
         try { 
             
-            // Load and parse the OWL ontology file
-            String path = "src/data/eswc-2006-09-21.rdf";
-            String SOURCE = "http://www.eswc2006.org/technologies/ontology";
-            String NS = SOURCE + "#";
-            OntModel ontM = readOntModel(path, SOURCE, NS);
+            // // Load and parse the OWL ontology file
+            // String path = "src/data/eswc-2006-09-21.rdf";
+            // String SOURCE = "http://www.eswc2006.org/technologies/ontology";
+            // String NS = SOURCE + "#";
+            // OntModel ontM = readOntModel(path, SOURCE, NS);
 
-            // Create an OntClass for "Artefact"
-            OntClass artefact = ontM.getOntClass(NS + "Artefact");
-            // printStatements(ontM, artefact, null, null);
-            // Create a new OntClass for "Programme"
-            OntClass programme = ontM.createClass(NS + "Programme");
+            // // Create an OntClass for "Artefact"
+            // OntClass artefact = ontM.getOntClass(NS + "Artefact");
+            // // printStatements(ontM, artefact, null, null);
+            // // Create a new OntClass for "Programme"
+            // OntClass programme = ontM.createClass(NS + "Programme");
 
-            // Create a new OntClass for "OrganizedEvent"
-            OntClass orgEvent = ontM.createClass(NS + "OrganizedEvent");
+            // // Create a new OntClass for "OrganizedEvent"
+            // OntClass orgEvent = ontM.createClass(NS + "OrganizedEvent");
 
-            // Create an ObjectProperty "hasProgramme"
-            ObjectProperty hasProgramme = ontM.createObjectProperty(NS + "hasProgramme");
-            hasProgramme.addDomain(orgEvent);
-            hasProgramme.addRange(programme);
-            hasProgramme.addLabel("has programme", "en");
+            // // Create an ObjectProperty "hasProgramme"
+            // ObjectProperty hasProgramme = ontM.createObjectProperty(NS + "hasProgramme");
+            // hasProgramme.addDomain(orgEvent);
+            // hasProgramme.addRange(programme);
+            // hasProgramme.addLabel("has programme", "en");
+            // // printStatements(ontM, hasProgramme, null, null);
+            
+            
+            
+            // // Create DatatypeProperties for deadlines
+            // DatatypeProperty subDeadline = ontM.getDatatypeProperty(NS + "hasSubmissionDeadline");
+            // DatatypeProperty notifyDeadline = ontM.getDatatypeProperty(NS + "hasNotificationDeadline");
+            // DatatypeProperty cameraDeadline = ontM.getDatatypeProperty(NS + "hasCameraReadyDeadline");
 
-            // Create DatatypeProperties for deadlines
-            DatatypeProperty subDeadline = ontM.getDatatypeProperty(NS + "hasSubmissionDeadline");
-            DatatypeProperty notifyDeadline = ontM.getDatatypeProperty(NS + "hasNotificationDeadline");
-            DatatypeProperty cameraDeadline = ontM.getDatatypeProperty(NS + "hasCameraReadyDeadline");
+            // // Create a DatatypeProperty "deadline" with domain "Call" and range XSD.dateTime
+            // DatatypeProperty deadline = ontM.createDatatypeProperty(NS + "deadline");
+            // deadline.addDomain(ontM.getOntClass(NS + "Call"));
+            // deadline.addRange(XSD.dateTime);
 
-            // Create a DatatypeProperty "deadline" with domain "Call" and range XSD.dateTime
-            DatatypeProperty deadline = ontM.createDatatypeProperty(NS + "deadline");
-            deadline.addDomain(ontM.getOntClass(NS + "Call"));
-            deadline.addRange(XSD.dateTime);
-
-            // Connect the sub-properties to the main property "deadline"
-            deadline.addSubProperty(subDeadline);
-            deadline.addSubProperty(notifyDeadline);
-            deadline.addSubProperty(cameraDeadline);
+            // // // Connect the sub-properties to the main property "deadline"
+            // deadline.addSubProperty(subDeadline);
+            // deadline.addSubProperty(notifyDeadline);
+            // deadline.addSubProperty(cameraDeadline);
             // printStatements(ontM, subDeadline, null, null);
             
-            // Perform reasoning and inference using an OWLReasoner
-            Reasoner reasoner = ReasonerRegistry.getOWLReasoner();
-            reasoner = reasoner.bindSchema(ontM);
-            InfModel infModel = ModelFactory.createInfModel(reasoner, ontM);
+            // // Perform reasoning and inference using an OWLReasoner
+            // Reasoner reasoner = ReasonerRegistry.getOWLReasoner();
+            // reasoner = reasoner.bindSchema(ontM);
+            // InfModel infModel = ModelFactory.createInfModel(reasoner, ontM);
 
-            // Retrieve a resource and print its statements
-            Resource a = infModel.getResource(NS + "hasSubmissionDeadline");
-            printStatements(infModel, a, null, null);
-            // Perform consistency checking
+            // // Retrieve a resource and print its statements
+            // Resource a = infModel.getResource(NS + "hasSubmissionDeadline");
+            // // printStatements(infModel, a, null, null);
+            // checkValidity(infModel);
+            // // Perform consistency checking
             
+            // Example 2 for testing reasoner
+            // performReasoning(null);
             
         } catch (Exception e) {
             // TODO: handle exception
